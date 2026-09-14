@@ -1,0 +1,597 @@
+/* ============================================================
+   styles.css - Registro de invitados (tema claro, elegante)
+   Diseño universal apto para cualquier ocasión: boda, cumpleaños,
+   velorio, etc. Responsivo en pantallas pequeñas.
+   ============================================================ */
+
+/* ===== Variables de color (paleta clara y sobria) ===== */
+:root {
+  --fondo: #f6f3ee;
+  --superficie: #ffffff;
+  --superficie-suave: #faf8f4;
+  --borde: #e7e0d4;
+  --texto: #2c2b33;
+  --texto-suave: #7c7a85;
+  --navy: #26425c;
+  --navy-suave: #3f5f7d;
+  --dorado: #b98a2f;
+  --dorado-suave: #c9a24b;
+  --peligro: #cf3f3f;
+  --ok: #2f8f5b;
+  --radio: 12px;
+  --sombra: 0 10px 28px rgba(70, 60, 40, 0.10);
+}
+
+/* ===== Reset y base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #fbf9f5, var(--fondo));
+  color: var(--texto);
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tipografía serif para títulos: sensación de invitación formal */
+h1, h2, h3, h4 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.app {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ===== Cabecera ===== */
+.cabecera {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.cabecera .c-corona {
+  font-size: 1.5rem;
+  color: var(--dorado);
+  letter-spacing: 6px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cabecera h1 {
+  font-size: 2rem;
+  color: var(--navy);
+  letter-spacing: 0.5px;
+}
+
+.cabecera p {
+  color: var(--texto-suave);
+  margin-top: 8px;
+}
+
+/* ===== Tarjetas ===== */
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--sombra);
+}
+
+.tarjeta h2 {
+  font-size: 1.25rem;
+  margin-bottom: 18px;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Pequeña línea decorativa dorada junto al título de sección */
+.tarjeta h2::before {
+  content: "";
+  width: 26px;
+  height: 2px;
+  background: var(--dorado);
+  display: inline-block;
+}
+
+/* ===== Campos de formulario ===== */
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.campo label {
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+/* El asterisco marca los campos obligatorios */
+.req {
+  color: var(--peligro);
+  font-weight: 700;
+}
+
+.campo input,
+.campo select {
+  padding: 11px 13px;
+  background: var(--superficie-suave);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  font-size: 0.95rem;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.22);
+}
+
+/* Estado de error en un campo */
+.campo.invalido input,
+.campo.invalido select {
+  border-color: var(--peligro);
+  background: #fdf1f1;
+  box-shadow: 0 0 0 3px rgba(207, 63, 63, 0.12);
+}
+
+/* Mensaje de error justo debajo del campo */
+.error {
+  color: var(--peligro);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 6px;
+  min-height: 1em;
+}
+
+/* Oculta elementos que aún no corresponden (ej.: campo "Otro") */
+.oculto {
+  display: none;
+}
+
+/* Teléfono con selector de país */
+.con-ficha {
+  display: flex;
+  gap: 10px;
+}
+
+.con-ficha select {
+  flex: 0 0 auto;
+  max-width: 240px;
+}
+
+.con-ficha input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Accesos rápidos para la fecha */
+.accesos-rapidos {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.chip {
+  border: 1px solid var(--borde);
+  background: var(--superficie-suave);
+  color: var(--navy);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip:hover {
+  background: var(--dorado-suave);
+  border-color: var(--dorado-suave);
+  color: #fff;
+}
+
+/* ===== Generador de invitados ===== */
+.fila-generador {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.campo-cantidad {
+  flex: 1;
+  max-width: 280px;
+}
+
+/* ===== Botones ===== */
+.btn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 13px 20px;
+  transition: transform 0.1s, filter 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.2px;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 16px rgba(60, 50, 30, 0.18);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primario {
+  background: var(--dorado);
+  color: #fff;
+}
+
+.btn-terciario {
+  background: #fff;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+}
+
+.btn-secundario {
+  background: var(--superficie-suave);
+  color: var(--texto-suave);
+  border: 1px solid var(--borde);
+}
+
+.btn-accion {
+  background: var(--navy);
+  color: #fff;
+  font-size: 1.05rem;
+  padding: 15px 34px;
+}
+
+.btn-accion:hover {
+  background: var(--navy-suave);
+}
+
+/* ===== Bloques de invitados ===== */
+.invitado {
+  background: var(--superficie-suave);
+  border: 1px solid var(--borde);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radio);
+  padding: 18px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.invitado-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.invitado-cabecera h3 {
+  font-size: 1.02rem;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Número del invitado en una ficha dorada */
+.invitado-cabecera h3 .num {
+  background: var(--dorado);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón para eliminar el bloque */
+.btn-eliminar {
+  background: #fff;
+  color: var(--peligro);
+  border: 1px solid rgba(207, 63, 63, 0.35);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-eliminar:hover {
+  background: rgba(207, 63, 63, 0.1);
+}
+
+.btn-eliminar:active {
+  transform: scale(0.92);
+}
+
+/* Red de campos de cada invitado (responsive) */
+.invitado-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 12px 18px;
+}
+
+/* Campo condicional de "Relación: otro" dentro del bloque */
+.sub-campo {
+  margin-top: 12px;
+}
+
+/* ===== Barra de acciones ===== */
+.barra-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* ===== Modal de vista previa ===== */
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 35, 25, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-caja {
+  background: var(--superficie);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-caja h2 {
+  font-size: 1.3rem;
+  color: var(--navy);
+}
+
+.modal-descripcion {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  margin: 6px 0 14px;
+}
+
+/* Interruptor .txt / PDF */
+.modal-interruptor {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.btn-interruptor {
+  border: 1px solid var(--borde);
+  background: var(--superficie-suave);
+  color: var(--texto-suave);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-interruptor.activo {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+
+/* Contenido en texto plano del .txt */
+.modal-caja pre {
+  background: var(--superficie-suave);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 14px;
+  font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  flex: 1;
+  margin-bottom: 16px;
+  min-height: 200px;
+}
+
+/* ===== Mini maqueta del PDF en pantalla ===== */
+.modal-vistapdf[hidden] {
+  display: none;
+}
+
+.modal-vistapdf {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  background: #ede9e0;
+  padding: 18px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.vista-pdf-mini {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1.5px solid var(--dorado);
+  outline: 1px solid var(--borde);
+  outline-offset: 4px;
+  padding: 28px 22px 22px;
+}
+
+/* Encabezado centrado: marca + nombre del evento + ornamento */
+.min-encabezado h3 {
+  color: var(--navy);
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.25;
+}
+
+.min-marca {
+  display: block;
+  text-align: center;
+  color: var(--dorado);
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* Ornamento: dos líneas doradas y un rombo (universal, sin emojis) */
+.min-ornamento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.min-ornamento span {
+  height: 1px;
+  width: 48px;
+  background: var(--dorado);
+}
+
+.min-ornamento b {
+  width: 7px;
+  height: 7px;
+  background: var(--dorado);
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+.vista-pdf-mini dl {
+  text-align: center;
+  padding: 4px 0 8px;
+}
+
+.vista-pdf-mini dt {
+  font-size: 0.66rem;
+  letter-spacing: 2.5px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.vista-pdf-mini dd {
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.vista-pdf-mini section {
+  padding-top: 6px;
+}
+
+.vista-pdf-mini section h4 {
+  font-size: 1.05rem;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--borde);
+  padding-bottom: 10px;
+}
+
+.vista-pdf-mini ul {
+  list-style: none;
+}
+
+.vista-pdf-mini li {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--borde);
+}
+
+.vista-pdf-mini li b {
+  color: var(--navy);
+  font-family: Georgia, serif;
+}
+
+.vista-pdf-mini li small {
+  display: block;
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+/* Botones del modal */
+.modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ===== Diseño responsivo ===== */
+@media (max-width: 720px) {
+  .cabecera h1 {
+    font-size: 1.6rem;
+  }
+
+  .invitado-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fila-generador {
+    flex-direction: column;
+  }
+
+  .campo-cantidad {
+    max-width: none;
+  }
+
+  .con-ficha {
+    flex-direction: column;
+  }
+
+  .con-ficha select {
+    max-width: none;
+  }
+
+  .modal-acciones {
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+
+  .modal-acciones .btn {
+    flex: 1;
+  }
+}

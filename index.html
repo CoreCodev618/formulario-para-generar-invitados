@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de invitados - Invitación</title>
+  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="shortcut icon" href="icono-lista.ico" type="image/x-icon">
+</head>
+<body>
+
+  <main class="app">
+
+    <header class="cabecera">
+      <span class="c-corona" aria-hidden="true">✦</span>
+      <h1>Registro de invitados</h1>
+      <p>Completa los datos de tu evento, añade a los invitados y descarga la lista en <strong>.txt</strong> o <strong>PDF</strong>.</p>
+    </header>
+
+    <!-- SECCIÓN 1: Datos generales del evento -->
+    <section class="tarjeta" aria-labelledby="titulo-evento">
+      <h2 id="titulo-evento">Datos del evento</h2>
+
+      <!-- El nombre del evento es un selector con opciones comunes + "Otro" -->
+      <div class="campo">
+        <label for="evento-tipo">Tipo de evento <span class="req">*</span></label>
+        <select id="evento-tipo" data-tipo="evento">
+          <option value="">Selecciona…</option>
+          <option value="Boda">Boda</option>
+          <option value="Cumpleaños">Cumpleaños</option>
+          <option value="Aniversario">Aniversario</option>
+          <option value="Graduación">Graduación</option>
+          <option value="Bautizo">Bautizo</option>
+          <option value="Baby Shower">Baby Shower</option>
+          <option value="Compromiso">Compromiso</option>
+          <option value="Reunión familiar">Reunión familiar</option>
+          <option value="Fiesta de empresa">Fiesta de empresa</option>
+          <option value="Velorio">Velorio</option>
+          <option value="otro">Otro…</option>
+        </select>
+        <small class="error"></small>
+      </div>
+
+      <!-- Campo adicional: solo se muestra cuando el evento es "Otro" -->
+      <div class="campo oculto" id="grupo-evento-otro">
+        <label for="evento-otro">Especifica el evento <span class="req">*</span></label>
+        <input type="text" id="evento-otro" data-tipo="evento-otro" placeholder="Ej.: Despedida de soltero">
+        <small class="error"></small>
+      </div>
+
+      <!-- Fecha con selector nativo + accesos rápidos de comodidad -->
+      <div class="campo">
+        <label for="fecha-evento">Fecha <span class="req">*</span></label>
+        <input type="date" id="fecha-evento" data-tipo="fecha">
+        <small class="error"></small>
+        <div class="accesos-rapidos">
+          <button type="button" class="chip" data-fecha="hoy">Hoy</button>
+          <button type="button" class="chip" data-fecha="maniana">Mañana</button>
+          <button type="button" class="chip" data-fecha="semana">+7 días</button>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="lugar-evento">Lugar <span class="req">*</span></label>
+        <input type="text" id="lugar-evento" data-tipo="texto" placeholder="Ej.: Salón Los Robles, Madrid">
+        <small class="error"></small>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: Configuración y generación de invitados -->
+    <section class="tarjeta" aria-labelledby="titulo-invitados">
+      <h2 id="titulo-invitados">Lista de invitados</h2>
+
+      <div class="fila-generador">
+        <div class="campo campo-cantidad">
+          <label for="cantidad-invitados">Cantidad de invitados (1 - 50) <span class="req">*</span></label>
+          <input type="number" id="cantidad-invitados" value="1" min="1" max="50">
+          <small class="error"></small>
+        </div>
+        <button type="button" id="btn-agregar" class="btn btn-primario">Agregar invitados</button>
+      </div>
+
+      <!-- Aquí se insertan dinámicamente los bloques de invitados -->
+      <div id="contenedor-invitados"></div>
+    </section>
+
+    <!-- Botones de acción: guardar y reiniciar -->
+    <div class="barra-acciones">
+      <button type="button" id="btn-guardar" class="btn btn-accion">Guardar</button>
+      <button type="button" id="btn-reiniciar" class="btn btn-secundario">Reiniciar</button>
+    </div>
+
+  </main>
+
+  <!-- MODAL: vista previa del archivo antes de descargarlo (.txt o PDF) -->
+  <div class="modal-overlay" id="modal" hidden>
+    <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <h2 id="modal-titulo">Vista previa</h2>
+      <p class="modal-descripcion">Revisa el contenido. Elige el formato que prefieras para descargar.</p>
+      <div class="modal-interruptor">
+        <button type="button" id="tab-txt" class="btn-interruptor activo" data-tab="txt">Archivo .txt</button>
+        <button type="button" id="tab-pdf" class="btn-interruptor" data-tab="pdf">Diseño PDF</button>
+      </div>
+      <pre id="modal-contenido"></pre>
+      <div class="modal-vistapdf" id="modal-pdf" hidden>
+        <div class="vista-pdf-mini">
+          <div class="min-encabezado">
+            <span class="min-marca">Invitaci&oacute;n</span>
+            <h3 id="pdf-evento"></h3>
+            <div class="min-ornamento"><span></span><b></b><span></span></div>
+          </div>
+          <dl>
+            <div><dt>Fecha</dt><dd id="pdf-fecha"></dd></div>
+            <div><dt>Lugar</dt><dd id="pdf-lugar"></dd></div>
+          </dl>
+          <section>
+            <div class="min-ornamento"><span></span><b></b><span></span></div>
+            <h4>Lista de invitados (<span id="pdf-total"></span>)</h4>
+            <ul id="pdf-lista"></ul>
+          </section>
+        </div>
+      </div>
+      <div class="modal-acciones">
+        <button type="button" id="btn-cancelar" class="btn btn-secundario">Cancelar</button>
+        <button type="button" id="btn-descargar-txt" class="btn btn-terciario">Descargar .txt</button>
+        <button type="button" id="btn-descargar-pdf" class="btn btn-primario">Descargar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=3"></script>
+</body>
+</html>
